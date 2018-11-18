@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tennis Bet</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	
+	<script type="text/javascript" src="app.js"></script>
+	<!-- Controllers -->
+	<script type="text/javascript" src="controllers/generalController.js"></script>
+	<script type="text/javascript" src="controllers/listMatchController.js"></script>
+	<script type="text/javascript" src="controllers/matchController.js"></script>
+	<script type="text/javascript" src="controllers/betController.js"></script>		
+</head>
+
+<body>
+	<div class="container" ng-app="tennisBet" ng-controller="generalController" ng-cloak>
+		<h1>Tennis Bet</h1>
+		</br>
+		
+		<h3>Match list</h3>
+
+		<div class="list-group" ng-controller="listMatchController">
+			<a id="{{$index}}" class="list-group-item" ng-repeat="match in matchs" ng-click="matchClicked($event)">
+				{{match.tournoi + " " + match.heure_debut + "\n" + match.joueur1.prenom + " " + match.joueur1.nom + " - " + match.joueur2.prenom + " " + match.joueur2.nom }}
+			</a>	
+		</div>
+
+		<div class="panel-group" ng-controller="matchController">
+			<div class="panel panel-default" ng-show="div_[$index]" ng-repeat="match in matchs">
+				<div class="panel-body">
+					<div class="table-responsive">
+						<p>{{match.tournoi}}</p>        
+						<table class="table table-bordered">
+						<tbody>
+						  <tr>
+						    <td>{{ match.joueur1.prenom + " " + match.joueur1.nom }}</td>
+						    <td>{{ match.pointage.manches[0] }}</td>
+						    <td>{{ match.pointage.jeu[match.pointage.jeu.length - 1][0] }}</td>
+						    <td>{{ match.pointage.echange[0] }}</td>
+						    <td>{{ match.constestation[0] }}</td>
+						  </tr>
+						  <tr>
+						    <td>{{ match.joueur2.prenom + " " + match.joueur2.nom }}</td>
+						    <td>{{ match.pointage.manches[1] }}</td>
+						    <td>{{ match.pointage.jeu[match.pointage.jeu.length - 1][1] }}</td>
+						    <td>{{ match.pointage.echange[1] }}</td> 
+						    <td>{{ match.constestation[1] }}</td>
+						  </tr>
+						</tbody>
+						</table>
+
+						<button type="button" id="{{$index}}" class="btn btn-default center-block" ng-click="betClicked($event)" data-toggle="modal" data-target="#myModal{{$index}}">Bet</button>
+
+						<div id="myModal{{$index}}" class="modal fade" role="dialog" data-backdrop="static" ng-controller="betController">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" ng-click="cancelBet()">&times;</button>
+										<h4 class="modal-title">Bet</h4>
+									</div>
+									<div class="modal-body">
+										<form novalidate class="simple-form">
+								          <div class="form-group">
+								            <label><input type="checkbox" ng-model="bet.player1"> {{ matchs[$index].joueur1.prenom + " " + matchs[$index].joueur1.nom }} </label>
+											<label><input type="checkbox" ng-model="bet.player2"> {{ matchs[$index].joueur2.prenom + " " + matchs[$index].joueur2.nom }} </label>
+								          </div>
+								          <div class="form-group">
+								            <label for="amount">Amount</label>
+    										<input type="number" class="form-control" id="amount" ng-model="bet.amount">
+								          </div>
+								        </form>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-success" data-dismiss="modal" ng-click="postBet(bet)">Bet</button>
+										<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="cancelBet()">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
