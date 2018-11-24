@@ -13,7 +13,7 @@ app.controller('betController', ['$rootScope', '$scope', '$http', function($root
     	var data = { "id_match": idMatch, "id_player": idPlayer, "bet_amount": amount };
 	    $http({
 	        method : "POST",
-	        url : "http://127.0.0.1:3000/parties/pari",
+	        url : "https://127.0.0.1:8000/parties/pari",
 	        params : data
 	    }).then(function mySuccess(response) {
 	        console.log("POST SUCCESSED");

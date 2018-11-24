@@ -1,5 +1,5 @@
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/TP2/sw.js', { scope: '/TP2/' }).then(function(reg) {
+  navigator.serviceWorker.register('sw.js', { scope: '/TennisBetWeb/' }).then(function(reg) {
 
     if(reg.installing) {
       console.log('Service worker installing');

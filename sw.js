@@ -2,14 +2,12 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('v1').then(function(cache) {
       return cache.addAll([
-        '/TP2/',
-        '/TP2/index.html',
-        '/TP2/app.js',
-        '/TP2/controllers/',
-        '/TP2/controllers/betController.js',
-        '/TP2/controllers/generalController.js',
-        '/TP2/controllers/listMatchController.js',
-        '/TP2/controllers/matchController.js'
+        '/index.html',
+        '/app.js',
+        '/controllers/betController.js',
+        '/controllers/generalController.js',
+        '/controllers/listMatchController.js',
+        '/controllers/matchController.js'
       ]);
     })
   );

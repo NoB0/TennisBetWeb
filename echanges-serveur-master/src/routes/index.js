@@ -8,8 +8,8 @@ const Joueur = require('../modeles/joueur.js');
 router.get('/', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  const p = new Partie(new Joueur('Albert', 'Ramos', 28, 56, 'Espagne'), new Joueur('Milos', 'Raonic', 28, 16, 'Canada'), '1', 'hale', '12h30');
-  // res.send('Bienvenu dans le serveur du service Échanges.');
-  res.send(p);
+  //const p = new Partie(new Joueur('Albert', 'Ramos', 28, 56, 'Espagne'), new Joueur('Milos', 'Raonic', 28, 16, 'Canada'), '1', 'hale', '12h30');
+   res.send('Bienvenu dans le serveur du service Échanges.');
+  //res.send(p);
 });
 module.exports = router;
