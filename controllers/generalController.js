@@ -8,7 +8,7 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     	if($scope.runInterval){
 		    $http({
 		        method : "GET",
-		        url : "https://127.0.0.1:8000/parties"
+		        url : "https://localhost:8000/parties"							//127.0.0.1
 		    }).then(function mySuccess(response) {
 		        $scope.matchs = response.data;
 		    }, function myError(response) {
@@ -28,4 +28,16 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     $scope.$on('modal-bet', function(event, args) {
     	$scope.runInterval = true;	
     });
+
+    $scope.refresh = function(){
+    	$http({
+	        method : "GET",
+	        url : "https://localhost:8000/parties"							//127.0.0.1
+	    }).then(function mySuccess(response) {
+	        $scope.matchs = response.data;
+	    }, function myError(response) {
+			console.log(response.statusText);
+		})
+    }
+
 }]);

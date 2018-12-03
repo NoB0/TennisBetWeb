@@ -10,10 +10,10 @@ app.controller('betController', ['$rootScope', '$scope', '$http', function($root
 
 	function bet (idMatch, idPlayer, amount) {
     	console.log("request bet : POST");
-    	var data = { "id_match": idMatch, "id_player": idPlayer, "bet_amount": amount };
+    	var data = { "id_match": parseInt(idMatch), "id_player": idPlayer, "bet_amount": amount };
 	    $http({
 	        method : "POST",
-	        url : "https://127.0.0.1:8000/parties/pari",
+	        url : "https://localhost:8000/parties/pari",		//127.0.0.1
 	        params : data
 	    }).then(function mySuccess(response) {
 	        console.log("POST SUCCESSED");

@@ -10,6 +10,7 @@ router.get('/', function (req, res, next) {
   res.send(gen.liste_partie);
 });
 
+
 router.get('/:id', function (req, res, next) {
   console.log("Request on match " + req.params.id);
   res.header("Access-Control-Allow-Origin", "*");
@@ -52,3 +53,4 @@ router.post('/pari/', function(req, res) {
 });
 
 module.exports = router;
+
