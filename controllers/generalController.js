@@ -29,6 +29,21 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     	return false;
     }
 
+    vm.checkContestations = function (constestation, previousconstestation, joueur1, joueur2) {
+    	if (constestation[0] != previousconstestation[0]) {
+    		var str = "CONTESTATION PAR " + joueur1.prenom + " " + joueur1.nom;
+    		alert(str);
+    		return true;
+    	} else if (constestation[1] != previousconstestation[1]) {
+    		
+    		var str = "CONTESTATION PAR " + joueur2.prenom + " " + joueur2.nom;
+    		alert(str);
+
+    		return true;
+    	}
+    	return false;
+    }
+
     vm.checkMatchs = function (matchs, previousMatchs) {
 
     	for (i = 0; i < matchs.length; i++) {
@@ -36,6 +51,10 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
 	    					previousMatchs[i].pointage.manches, 
 	    						matchs[i].joueur1, 
 	    							matchs[i].joueur2);
+	    	vm.checkContestations(matchs[i].constestation, 
+	    								previousMatchs[i].constestation, 
+	    									matchs[i].joueur1, 
+	    										matchs[i].joueur2);
 		}
 		
     }
@@ -50,10 +69,10 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
 	    	//console.log(response.data);
 	        $scope.matchs = response.data;
 
-	       	/*console.log("$scope.matchs");
+	       	console.log("$scope.matchs");
 	        console.log($scope.matchs);
 	        console.log("$scope.previousMatchs");
-	        console.log($scope.previousMatchs);*/
+	        console.log($scope.previousMatchs);
 
 	        try {
 	        	vm.checkMatchs($scope.matchs, $scope.previousMatchs);
@@ -96,10 +115,10 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
 	    }).then(function mySuccess(response) {
 	        $scope.matchs = response.data;
 
-	        console.log("$scope.matchs");
+	        /*console.log("$scope.matchs");
 	        console.log($scope.matchs);
 	        console.log("$scope.previousMatchs");
-	        console.log($scope.previousMatchs);
+	        console.log($scope.previousMatchs);*/
 
 	        $scope.previousMatchs = $scope.matchs;
 	    }, function myError(response) {
