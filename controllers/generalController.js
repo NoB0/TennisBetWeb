@@ -1,4 +1,4 @@
-var app = angular.module('tennisBet',['growlNotifications', 'ngAnimate']);
+var app = angular.module('tennisBet',[]);
 
 app.controller('generalController', ['$scope', '$http',function($scope, $http) {    
     $scope.runInterval = true;
