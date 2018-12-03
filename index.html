@@ -13,7 +13,9 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	
-	<script type="text/javascript" src="app.js"></script>
+	<!-- <script type="text/javascript" src="app.js"></script> -->
+	<script type="text/javascript" src="class/match.js"></script>
+	<script type="text/javascript" src="class/bet.js"></script>
 	<!-- Controllers -->
 	<script type="text/javascript" src="controllers/generalController.js"></script>
 	<script type="text/javascript" src="controllers/listMatchController.js"></script>
@@ -32,30 +34,32 @@
 
 		<div id="matchs" class="list-group" ng-controller="listMatchController">
 			<button id="{{$index}}" class="list-group-item" ng-repeat="match in matchs" ng-click="matchClicked($event)">
-				{{match.tournoi + " " + match.heure_debut + "\n" + match.joueur1.prenom + " " + match.joueur1.nom + " - " + match.joueur2.prenom + " " + match.joueur2.nom }}
+				{{match.tournament + " " + match.stratTime + " : " + match.joueur1.prenom + " " + match.joueur1.nom + " - " + match.joueur2.prenom + " " + match.joueur2.nom }}
 			</button>	
 		</div>
+
+		<p id="bet-alert"></p>
 
 		<div class="panel-group" ng-controller="matchController">
 			<div class="panel panel-default" ng-show="div_[$index]" ng-repeat="match in matchs">
 				<div class="panel-body">
 					<div class="table-responsive">
-						<p>{{match.tournoi}} - {{ time(match.temps_partie) }}</p>        
+						<p>{{match.tournament}} - {{ match.time(match.duration) }}</p>        
 						<table class="table table-bordered">
 						<tbody>
 						  <tr>
 						    <td>{{ match.joueur1.prenom + " " + match.joueur1.nom }}</td>
-						    <td>{{ match.pointage.manches[0] }}</td>
-						    <td>{{ match.pointage.jeu[match.pointage.jeu.length - 1][0] }}</td>
-						    <td>{{ score(match.pointage.echange[0]) }}</td>
-						    <td>{{ match.constestation[0] }}</td>
+						    <td>{{ match.points.manches[0] }}</td>
+						    <td>{{ match.points.jeu[match.points.jeu.length - 1][0] }}</td>
+						    <td>{{ match.score(match.points.echange[0]) }}</td>
+						    <td>{{ match.contests[0] }}</td>
 						  </tr>
 						  <tr>
 						    <td>{{ match.joueur2.prenom + " " + match.joueur2.nom }}</td>
-						    <td>{{ match.pointage.manches[1] }}</td>
-						    <td>{{ match.pointage.jeu[match.pointage.jeu.length - 1][1] }}</td>
-						    <td>{{ score(match.pointage.echange[1]) }}</td>
-						    <td>{{ match.constestation[1] }}</td>
+						    <td>{{ match.points.manches[1] }}</td>
+						    <td>{{ match.points.jeu[match.points.jeu.length - 1][1] }}</td>
+						    <td>{{ match.score(match.points.echange[1]) }}</td>
+						    <td>{{ match.contests[1] }}</td>
 						  </tr>
 						</tbody>
 						</table>
@@ -72,8 +76,8 @@
 									<div class="modal-body">
 										<form novalidate class="simple-form">
 								          <div class="form-group">
-								            <label><input type="checkbox" ng-model="bet.player1"> {{ matchs[$index].joueur1.prenom + " " + matchs[$index].joueur1.nom }} </label>
-											<label><input type="checkbox" ng-model="bet.player2"> {{ matchs[$index].joueur2.prenom + " " + matchs[$index].joueur2.nom }} </label>
+								            <label><input type="radio" name="player_choice" ng-model="bet.player1" /> {{ matchs[$index].joueur1.prenom + " " + matchs[$index].joueur1.nom }} </label>
+											<label><input type="radio" name="player_choice" ng-model="bet.player2" /> {{ matchs[$index].joueur2.prenom + " " + matchs[$index].joueur2.nom }} </label>
 								          </div>
 								          <div class="form-group">
 								            <label for="amount">Amount</label>

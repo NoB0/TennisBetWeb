@@ -31,8 +31,10 @@ router.get('/resultat/:id_match/:id_player/:montant', function (req, res, next) 
 });
 
 router.post('/pari/', function(req, res) {
-	var result = JSON.stringify(req.body);
-    var result = result.slice(2,-5);
+	console.log(req.query);
+
+	var result = JSON.stringify(req.query);
+    //var result = result.slice(2,-5);
 	var resultCleaned = result.replace(/\\"/g, '"');
 	console.log("\nPOST request resultCleaned : " + resultCleaned);
 

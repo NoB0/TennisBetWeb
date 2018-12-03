@@ -15,30 +15,4 @@ app.controller('matchController', ['$rootScope', '$scope', '$http', function($ro
     	$rootScope.$broadcast('bet-clicked', { id: {idMatch} });
 	}
 
-	$scope.score = function(points) {
-		switch (points){
-            case 0 :
-                return 0;
-            case 1 :
-                return 15;
-            case 2 :
-                return 30;
-            case 3 :
-                return 40;
-            default :
-                return 0;
-        }
-	}
-
-	$scope.time = function(t){
-		var hours = Math.floor(t / 3600);
-        var minutes = Math.floor((t % 3600) / 60);
-        var seconds = t - minutes * 60 - hours * 3600;
-
-        return hours + "h " + minutes + "min " + seconds + "s";
-	}
-
-
-
-
 }]);

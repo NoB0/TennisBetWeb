@@ -1,5 +1,4 @@
 app.controller('betController', ['$rootScope', '$scope', '$http', function($rootScope, $scope, $http) {
-	$scope.idBet = 0;
 	$scope.bets = [];
 	$scope.idMatch = null;
 	$scope.idPlayer = null; 
@@ -8,25 +7,23 @@ app.controller('betController', ['$rootScope', '$scope', '$http', function($root
     	$scope.idMatch = args.id.idMatch;
 	});
 
-	function bet (idMatch, idPlayer, amount) {
+	function betRequest (bet) {
     	console.log("request bet : POST");
-    	var data = { "id_match": parseInt(idMatch), "id_player": idPlayer, "bet_amount": amount };
 	    $http({
-	        method : "POST",
-	        url : "https://localhost:8000/parties/pari",		//127.0.0.1
-	        params : data
+	        method: "POST",
+	        url: "https://localhost:8000/parties/pari",		//127.0.0.1
+	        headers: {
+			    'Accept': 'application/json',
+			    'Content-Type': 'application/json',
+			},
+	        params: bet
 	    }).then(function mySuccess(response) {
-	        console.log("POST SUCCESSED");
+	        document.getElementById("bet-alert").innerHTML = "You bet $" + bet.bet_amount;
+
 	    }, function myError(response) {
 			console.log(response.statusText);
 	    })
 	}
-
-	function addBet (idMatch, idPlayer, amount) {
-		var bet = { 'id': $scope.idBet, 'id_match': idMatch, 'id_player': idPlayer, 'bet_amount': amount };
-		$scope.idBet=$scope.idBet + 1;
-        $scope.bets.push(bet);
-    }
 
     $scope.postBet = function (betInfos){
 		if(betInfos.player1){
@@ -34,9 +31,11 @@ app.controller('betController', ['$rootScope', '$scope', '$http', function($root
 		}else {
 			$scope.idPlayer = 1;
 		}
-		addBet($scope.idMatch, $scope.idPlayer, betInfos.amount);
+		var bet = new Bet(parseInt($scope.idMatch), $scope.idPlayer, betInfos.amount);
+		$scope.bets.push(bet);
 		console.log($scope.bets);
-		bet($scope.idMatch, $scope.idPlayer, betInfos.amount);
+
+		betRequest(bet);
 
 		$rootScope.$broadcast('modal-bet');
 	};
@@ -44,4 +43,5 @@ app.controller('betController', ['$rootScope', '$scope', '$http', function($root
 	$scope.cancelBet = function (){
 		$rootScope.$broadcast('modal-bet');
 	};
+	
 }]);
