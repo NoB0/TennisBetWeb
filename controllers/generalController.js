@@ -3,7 +3,6 @@ var app = angular.module('tennisBet',[]);
 app.controller('generalController', ['$scope', '$http',function($scope, $http) {    
     $scope.runInterval = true;
 
-    // TO CHANGE
 
     $scope.previousMatchs = [];
     var flag = false;
@@ -46,6 +45,29 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     	return false;
     }
 
+    vm.betRequestGetMoney = function (id_match, id_player, montant) {
+        console.log("Requesting money from server...");
+
+        var url = "https://localhost:8000/parties/resultat/" 
+                                                + "id_match/" + id_match
+                                                     + "/id_player/" + id_player
+                                                         + "/montant/" + montant
+        $http({
+            method : "GET",
+            url : url
+        }).then(function mySuccess(response) {
+            console.log("Data sent by server: " + response.data)
+            if (response.data > 0) {
+                alert("Vous avez gagné " + response.data + "$");
+            } else {
+                alert("Vous avez perdu votre pari, loser.");
+            }
+
+        }, function myError(response) {
+            console.log(response.statusText);
+        })
+    }
+
     vm.checkVainqueur = function (match) {
         console.log("checkVainqueur function");
         if (match.isFinal()) {
@@ -82,14 +104,8 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
 
             if (dataArray[0] != null && dataArray[1] != null) {
                console.log("LAUNCH BET REQUEST");
-                
-
-
-
+               vm.betRequestGetMoney(match.id, dataArray[0], dataArray[1])
             }
-
-           
-
             
         }
     }
@@ -108,10 +124,6 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
 		}	
     }
 
-    
-
-
-    //END TO CHANGE
 
 	vm.fetchParties = function() {
 
