@@ -1,4 +1,5 @@
-self.addEventListener('install', function(event) {
+/*self.addEventListener('install', function(event) {
+  console.log("INSTALL caught in Service Worker");
   event.waitUntil(
     caches.open('v1').then(function(cache) {
       return cache.addAll([
@@ -14,6 +15,7 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
+  console.log("FETCH caught in Service Worker");
   event.respondWith(
     caches.match(event.request).then(function(resp) {
       return resp || fetch(event.request).then(function(response) {
@@ -29,6 +31,8 @@ self.addEventListener('fetch', function(event) {
 self.addEventListener('activate', function(event) {
   var cacheKeeplist = ['v2'];
 
+  console.log("ACTIVATE caught in Service Worker");
+
   event.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
@@ -39,3 +43,24 @@ self.addEventListener('activate', function(event) {
     })
   );
 });
+
+self.addEventListener('subscribe', ev => {
+
+  console.log("PUSH enabled in Service Worker");
+
+  const data = ev.data.json();
+  console.log('Got push', data);
+  self.registration.showNotification(data.title, {
+    body: 'Hello, World!',
+    icon: ''
+  });
+});
+*/
+
+
+
+
+
+
+
+

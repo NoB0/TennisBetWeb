@@ -37,3 +37,6 @@ function demarrerPartie (partie) {
 module.exports = {};
 module.exports.demarrer = demarrer;
 module.exports.liste_partie = listePartie;
+
+
+

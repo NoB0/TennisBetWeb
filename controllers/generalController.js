@@ -8,23 +8,23 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     $scope.previousMatchs = [];
     var flag = false;
 
-    vm = this;
+    let vm = this;
 
     vm.checkSets = function (manches, previousManches, joueur1, joueur2) {
     	if (manches[0] != previousManches[0]) {
-    		var str = "MANCHE GAGNÉE PAR " + joueur1.prenom + " " + joueur1.nom + "\n"
+    		var str = "MANCHE GAGNÉE par " + joueur1.prenom + " " + joueur1.nom + "\n"
     					+ "New score : " + manches[0] + " - " + manches[1] + "\n"
     						+ "Old score : " + previousManches[0] + " - " + previousManches[1]
     		
-    		alert(str);
+    		//alert(str);
     		return true;
     	} else if (manches[1] != previousManches[1]) {
     		
-    		var str = "MANCHE GAGNÉE PAR " + joueur2.prenom + " " + joueur2.nom + "\n"
+    		var str = "MANCHE GAGNÉE par " + joueur2.prenom + " " + joueur2.nom + "\n"
     					+ "New score : " + manches[0] + " - " + manches[1] + "\n"
     						+ "Old score : " + previousManches[0] + " - " + previousManches[1]
     		
-    		alert(str);
+    		//alert(str);
 
     		return true;
     	}
@@ -46,8 +46,55 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     	return false;
     }
 
-    vm.checkMatchs = function (matchs, previousMatchs) {
+    vm.checkVainqueur = function (match) {
+        console.log("checkVainqueur function");
+        if (match.isFinal()) {
+            if (match.points.manches[0] > match.points.manches[1]) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
+        }
+    }
 
+    vm.checkFinMatch = function(match) {
+        console.log("checkFinMatch function");
+        //console.log(match.isEndProcessed());
+
+        if (match.isFinal() && match.isEndProcessed() == false) {
+            idVainqueur = vm.checkVainqueur(match);
+            if (idVainqueur == 0) {
+                nomVainqueur = match.joueur1.prenom + " " + match.joueur1.nom
+            } else {
+                nomVainqueur = match.joueur2.prenom + " " + match.joueur2.nom
+            }
+
+            alert("MATCH GAGNÉ par " + nomVainqueur);
+            match.setEndProcessed();
+
+
+            data = localStorage.getItem(match.id);
+            var dataArray = JSON.parse("[" + data + "]");
+            console.log("data bet stored: ");
+            console.log(dataArray);
+
+            if (dataArray[0] != null && dataArray[1] != null) {
+               console.log("LAUNCH BET REQUEST");
+                
+
+
+
+            }
+
+           
+
+            
+        }
+    }
+
+    vm.checkMatchs = function (matchs, previousMatchs) {
     	for (i = 0; i < matchs.length; i++) {
 	    	vm.checkSets(matchs[i].points.manches, 
 	    					previousMatchs[i].points.manches, 
@@ -57,9 +104,11 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
 	    								previousMatchs[i].contests, 
 	    									matchs[i].joueur1, 
 	    										matchs[i].joueur2);
-		}
-		
+            vm.checkFinMatch(matchs[i]);
+		}	
     }
+
+    
 
 
     //END TO CHANGE
@@ -79,9 +128,9 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
 	        console.log("$scope.previousMatchs");
 	        console.log($scope.previousMatchs);
 
+
 	        try {
-	        	vm.checkMatchs($scope.matchs, $scope.previousMatchs);
-	        	console.log("normal assign");
+                vm.checkMatchs($scope.matchs, $scope.previousMatchs);
 	        	$scope.previousMatchs = $scope.matchs;
 	        } catch(e) {
 	        	console.log(e);
@@ -123,10 +172,10 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     	var i
     	var match = [];
 		for (i = 0; i < listMatchs.length; i++) { 
-		    m = new Match (listMatchs[i].joueur1, listMatchs[i].joueur2, listMatchs[i].terrain, 
+		    m = new Match (i, listMatchs[i].joueur1, listMatchs[i].joueur2, listMatchs[i].terrain, 
 		    	listMatchs[i].tournoi, listMatchs[i].heure_debut, listMatchs[i].pointage,
 		    	listMatchs[i].temps_partie, listMatchs[i].serveur, listMatchs[i].vitesse_dernier_service,
-		    	listMatchs[i].nombre_coup_dernier_echange, listMatchs[i].constestation);
+		    	listMatchs[i].nombre_coup_dernier_echange, listMatchs[i].constestation, listMatchs[i].pointage.final);
 		    match.push(m);
 		}
 		return match;

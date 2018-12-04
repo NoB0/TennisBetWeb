@@ -4,7 +4,6 @@ class Pointage {
     this.jeu = [[0, 0]];
     this.echange = [0, 0];
     this.final = false;
-
     this.parent = parent;
   }
 

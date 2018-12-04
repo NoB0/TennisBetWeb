@@ -14,7 +14,11 @@ class Partie {
     this.nombre_coup_dernier_echange = 0;
     this.constestation = [3, 3];
     this.tick_debut = tickDebut;
-    this.totalPari = 0;
+    this.totalPariJ1 = 0;
+    this.totalPariJ2 = 0;
+    this.montantTotalPari = 0;
+    this.montantPariGagnant = -1;
+    this.idVainqueur = -1;
   }
 
   jouerTour () {
@@ -62,17 +66,63 @@ class Partie {
     return this.pointage.final;
   }
 
-  ajouterPari(montant) {
-    this.totalPari += montant;
+  _determinerVaingueur () {
+    if (this.pointage.final) {
+        if (this.pointage.manches[0] > this.pointage.manches[1]) {
+            this.idVainqueur = 0;
+            this.montantPariGagnant = this.totalPariJ1;
+        } else if(this.pointage.manches[0] < this.pointage.manches[1]) {
+            this.idVainqueur = 1;
+            this.montantPariGagnant = this.totalPariJ2;
+        } else {
+            this.idVainqueur = -1;
+            this.montantPariGagnant = -1;
+        }
+    } else {
+        this.idVainqueur = -1;
+    }
   }
 
-  montantTotalPari() {
-    return this.totalPari;
+  ajouterPari(montant, idJoueur) {
+      if (idJoueur === 0) {
+          this.totalPariJ1 += montant;
+          console.log("montantTotalPari: " + this.totalPariJ1);
+      } else if (idJoueur === 1){
+          this.totalPariJ2 += montant;
+          console.log("montantTotalPari: " + this.totalPariJ2);
+      }
+      this.setMontantTotalPari()
   }
 
-  renvoyerGain(mise) {
-    var newMontantTotalPari = this.totalPari * 0.75;
-    return (mise/this.totalPari)*newMontantTotalPari;
+  montantPariJ1 () {
+    return this.totalPariJ1;
+  }
+
+  montantPariJ2 () {
+    return this.totalPariJ2;
+  }
+
+  setMontantTotalPari () {
+      this.montantTotalPari = this.totalPariJ1 + this.totalPariJ2;
+      console.log("montantTotalPari: " + this.montantTotalPari);
+  }
+
+  renvoyerGain(mise, idJoueurParie) {
+    if (this.pointage.final) {
+        this._determinerVaingueur();
+        if (idJoueurParie === this.idVainqueur) {
+            //gagné
+
+            var portionPariGagnant = mise / this.montantPariGagnant;
+            return portionPariGagnant * this.montantPariGagnant;
+
+        } else {
+            //perdu
+            return 0;
+        }
+    } else {
+        return -1;
+    }
   }
 
   toJSON () {
