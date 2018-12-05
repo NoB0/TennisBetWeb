@@ -1,4 +1,4 @@
-/*self.addEventListener('install', function(event) {
+self.addEventListener('install', function(event) {
   console.log("INSTALL caught in Service Worker");
   event.waitUntil(
     caches.open('v1').then(function(cache) {
@@ -55,8 +55,6 @@ self.addEventListener('subscribe', ev => {
     icon: ''
   });
 });
-*/
-
 
 
 

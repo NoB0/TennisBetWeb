@@ -51,7 +51,7 @@ class Partie {
   }
 
   static contester () {
-    return (Math.random() * 100) > 25; // 75% de chance que la contestation passe
+    return (Math.random() * 100) > 75; // 75% de chance que la contestation passe
   }
 
   changerServeur () {

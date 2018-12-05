@@ -1,15 +1,4 @@
-if (typeof(Storage) !== "undefined") {
-    // Code for localStorage/sessionStorage.
-} else {
-    // Sorry! No Web Storage support..
-}
-
-
-
-
-
-
-/*const publicVapidKey = "BN70e1q-W_Ow7tfTwkTAi0aR6oR7fVnXudPf_oBD03kw59x8l6RalEIco-UPJewJw9yWIAfNgSm8xPCUFAJNQms"
+const publicVapidKey = "BN70e1q-W_Ow7tfTwkTAi0aR6oR7fVnXudPf_oBD03kw59x8l6RalEIco-UPJewJw9yWIAfNgSm8xPCUFAJNQms"
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -37,7 +26,7 @@ function subscribeForPushNotification (reg) {
       // The `urlBase64ToUint8Array()` function is the same as in
       // https://www.npmjs.com/package/web-push#using-vapid-key-for-applicationserverkey
       applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    }, function() {
+    }, function() {
       console.log('PUSH REGISTERED')
 
       fetch('/subscribe', {
@@ -87,5 +76,3 @@ navigator.serviceWorker.register("sw.js", {scope: "/"})
     }
 );
 
-
-*/
