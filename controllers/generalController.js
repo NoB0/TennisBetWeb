@@ -15,7 +15,7 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     					+ "New score : " + manches[0] + " - " + manches[1] + "\n"
     						+ "Old score : " + previousManches[0] + " - " + previousManches[1]
     		
-    		//alert(str);
+    		alert(str);
     		return true;
     	} else if (manches[1] != previousManches[1]) {
     		
@@ -23,7 +23,7 @@ app.controller('generalController', ['$scope', '$http',function($scope, $http) {
     					+ "New score : " + manches[0] + " - " + manches[1] + "\n"
     						+ "Old score : " + previousManches[0] + " - " + previousManches[1]
     		
-    		//alert(str);
+    		alert(str);
 
     		return true;
     	}
